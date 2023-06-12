@@ -35,22 +35,17 @@ void main() async {
 
 (4) Use `PersistentValueNotifier` in place of `ValueNotifier` in your code, as shown below.
 
-Use  `PersistentValueNotifier` rather than `ReactiveValue`:
-
 ```dart
-final counter = PersistentValueNotifier<int>(
-      sharedPreferencesKey: 'counter', defaultValue: 0);
+final counter = PersistentValueNotifier<int>(sharedPreferencesKey: 'counter', initialValue: 0);
 ```
 
-`counter.value` will be set to the default value `0` if it has never been set before, but if it has been set before in a previous run of the app, the previous value will be recovered from `SharedPreferences`, using the key `'counter'`.
+`counter.value` will be set to the initial value of `0` if it has never been set before, but if it has been set before in a previous run of the app, the previous value will be recovered from `SharedPreferences` instead, using the shared preferences key `'counter'`.
 
-Whenever `counter.value` is set in future, not only is any wrapping `ReactiveWidget` updated, but the new value is asynchronously written through to the `SharedPreferences` persistence cache (i.e. `SharedPreferences` is used as a write-through cache), using the same key.
+Whenever `counter.value` is set in future, not only is the underlying `ValueNotifier`'s `value` updated, but the new value is asynchronously written through to `SharedPreferences`, using the same key.
 
-## `PersistentNullableValueNotifier` subclass
+## Pro-tip
 
-Note that for `PersistentValueNotifier<T>`, `T` cannot be a nullable type (`T?`), since null values cannot be distinguished from a value not being present in `SharedPreferences`.
-
-If you want to be able to "store" null values in SharedPreferences (which amounts to removing the key from `SharedPreferences` if you try to set a null value), then use `PersistentNullableValueNotifier<T?>`. For this class, `defaultValue` is optional.
+Use `flutter_persistent_value_notifier` together with my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value) to enable persistent reactive state in your app!
 
 ## Author
 
