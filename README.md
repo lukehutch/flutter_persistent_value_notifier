@@ -1,1 +1,57 @@
-# flutter_persistent_value_notifier
+# The `flutter_persistent_value_notifier` library
+
+`ReactiveValue` resets to its initial value every time the app is restarted. You can persist values across app restarts by using `PersistentValueNotifier` rather than `ReactiveValue`.
+
+This Flutter library extends [`ValueNotifier<T>`](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to provide a `PersistentValueNotifier` that stores the `ValueNotifier`'s `value` in [`SharedPreferences`](https://pub.dev/packages/shared_preferences), so that changes in the `value` survive app restarts.
+
+## Usage
+
+(1) Add a dependency upon `flutter_persistent_value_notifier` in your `pubspec.yaml` (replace `any` with the latest version, if you want to control the version), then run `flutter pub get`:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_persistent_value_notifier: any
+```
+
+(2) Import the package in your Flutter project:
+
+```dart
+import 'package:flutter_persistent_value_notifier/flutter_persistent_value_notifier.dart'
+```
+
+(3) In your async `main` method, initialize `WidgetsFlutterBinding`, then initialize the `persistent_value_notifier` library by calling `await initPersistentValueNotifier()`, which starts `SharedPreferences` and loads any persisted values from the `SharedPreferences` backing store.
+
+```dart
+void main() async {
+  // Both of the following lines are needed, in this order
+  WidgetsFlutterBinding.ensureInitialized();
+  await initPersistentValueNotifier();
+
+  runApp(MainPage());
+}
+```
+
+(4) Use `PersistentValueNotifier` in place of `ValueNotifier` in your code, as shown below.
+
+Use  `PersistentValueNotifier` rather than `ReactiveValue`:
+
+```dart
+final counter = PersistentValueNotifier<int>(
+      sharedPreferencesKey: 'counter', defaultValue: 0);
+```
+
+`counter.value` will be set to the default value `0` if it has never been set before, but if it has been set before in a previous run of the app, the previous value will be recovered from `SharedPreferences`, using the key `'counter'`.
+
+Whenever `counter.value` is set in future, not only is any wrapping `ReactiveWidget` updated, but the new value is asynchronously written through to the `SharedPreferences` persistence cache (i.e. `SharedPreferences` is used as a write-through cache), using the same key.
+
+## `PersistentNullableValueNotifier` subclass
+
+Note that for `PersistentValueNotifier<T>`, `T` cannot be a nullable type (`T?`), since null values cannot be distinguished from a value not being present in `SharedPreferences`.
+
+If you want to be able to "store" null values in SharedPreferences (which amounts to removing the key from `SharedPreferences` if you try to set a null value), then use `PersistentNullableValueNotifier<T?>`. For this class, `defaultValue` is optional.
+
+## Author
+
+`flutter_persistent_value_notifier` was written by Luke Hutchison, and is released under the MIT license.
