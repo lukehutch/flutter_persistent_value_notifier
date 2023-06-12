@@ -18,7 +18,8 @@ dependencies:
 (2) Import the package in your Flutter project:
 
 ```dart
-import 'package:flutter_persistent_value_notifier/flutter_persistent_value_notifier.dart'
+import 'package:flutter_persistent_value_notifier/'
+            'flutter_persistent_value_notifier.dart';
 ```
 
 (3) In your async `main` method, initialize `WidgetsFlutterBinding`, then initialize the `persistent_value_notifier` library by calling `await initPersistentValueNotifier()`, which starts `SharedPreferences` and loads any persisted values from the `SharedPreferences` backing store.
