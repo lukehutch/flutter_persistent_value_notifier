@@ -36,7 +36,10 @@ void main() async {
 (4) Use `PersistentValueNotifier` in place of `ValueNotifier` in your code, as shown below.
 
 ```dart
-final counter = PersistentValueNotifier<int>(sharedPreferencesKey: 'counter', initialValue: 0);
+final counter = PersistentValueNotifier<int>(
+  sharedPreferencesKey: 'counter',
+  initialValue: 0,
+);
 ```
 
 `counter.value` will be set to the initial value of `0` if it has never been set before, but if it has been set before in a previous run of the app, the previous value will be recovered from `SharedPreferences` instead, using the shared preferences key `'counter'`.
