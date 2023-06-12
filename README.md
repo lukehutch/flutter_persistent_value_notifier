@@ -1,0 +1,1 @@
+# flutter_persistent_value_notifier
