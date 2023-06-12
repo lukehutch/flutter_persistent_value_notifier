@@ -45,7 +45,7 @@ Whenever `counter.value` is set in future, not only is the underlying `ValueNoti
 
 ## Pro-tip
 
-Use `flutter_persistent_value_notifier` together with my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value) to enable persistent reactive state in your app!
+Use `flutter_persistent_value_notifier` together with my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value), to enable persistent reactive state in your app!
 
 ## Author
 
