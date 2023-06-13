@@ -29,7 +29,7 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
   /// in [SharedPreferences]. [initialValue] is the initial value to set the
   /// [ValueNotifier] to.
   PersistentValueNotifier(
-      {required String this.sharedPreferencesKey, required T initialValue})
+      {required this.sharedPreferencesKey, required T initialValue})
       : super(initialValue) {
     assert(_sharedPreferences != null,
         'Need to call `await initPersistentValueNotifier()` first');
