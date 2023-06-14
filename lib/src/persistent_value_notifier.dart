@@ -33,38 +33,20 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
       : super(initialValue) {
     assert(_sharedPreferences != null,
         'Need to call `await initPersistentValueNotifier()` first');
-    switch (runtimeType) {
-      case PersistentValueNotifier<int>:
-      case PersistentValueNotifier<int?>:
-        super.value = _sharedPreferences!.getInt(sharedPreferencesKey) as T? ??
-            initialValue;
-        break;
-      case PersistentValueNotifier<bool>:
-      case PersistentValueNotifier<bool?>:
-        super.value = _sharedPreferences!.getBool(sharedPreferencesKey) as T? ??
-            initialValue;
-        break;
-      case PersistentValueNotifier<double>:
-      case PersistentValueNotifier<double?>:
-        super.value =
-            _sharedPreferences!.getDouble(sharedPreferencesKey) as T? ??
-                initialValue;
-        break;
-      case PersistentValueNotifier<String>:
-      case PersistentValueNotifier<String?>:
-        super.value =
-            _sharedPreferences!.getString(sharedPreferencesKey) as T? ??
-                initialValue;
-        break;
-      case PersistentValueNotifier<List<String>>:
-      case PersistentValueNotifier<List<String>?>:
-        super.value =
-            _sharedPreferences!.getStringList(sharedPreferencesKey) as T? ??
-                initialValue;
-        break;
-      default:
-        throw Exception('Type parameter not supported: $runtimeType');
-    }
+    super.value = switch (this) {
+          PersistentValueNotifier<int?>() =>
+            _sharedPreferences!.getInt(sharedPreferencesKey) as T?,
+          PersistentValueNotifier<bool?>() =>
+            _sharedPreferences!.getBool(sharedPreferencesKey) as T?,
+          PersistentValueNotifier<double?>() =>
+            _sharedPreferences!.getDouble(sharedPreferencesKey) as T?,
+          PersistentValueNotifier<String?>() =>
+            _sharedPreferences!.getString(sharedPreferencesKey) as T?,
+          PersistentValueNotifier<List<String>?>() =>
+            _sharedPreferences!.getStringList(sharedPreferencesKey) as T?,
+          _ => throw Exception('Type parameter not supported'),
+        } ??
+        initialValue;
   }
 
   @override
@@ -72,55 +54,17 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
     // Update the `ValueNotifier` superclass with the new value
     super.value = newValue;
     // Asynchronously write the new value through to SharedPreferences
-    switch (runtimeType) {
-      case PersistentValueNotifier<int>:
-      case PersistentValueNotifier<int?>:
-        if (newValue == null) {
-          unawaited(_sharedPreferences!.remove(sharedPreferencesKey));
-        } else {
-          unawaited(_sharedPreferences!
-              .setInt(sharedPreferencesKey, newValue as int));
-        }
-        break;
-      case PersistentValueNotifier<bool>:
-      case PersistentValueNotifier<bool?>:
-        if (newValue == null) {
-          unawaited(_sharedPreferences!.remove(sharedPreferencesKey));
-        } else {
-          unawaited(_sharedPreferences!
-              .setBool(sharedPreferencesKey, newValue as bool));
-        }
-        break;
-      case PersistentValueNotifier<double>:
-      case PersistentValueNotifier<double?>:
-        if (newValue == null) {
-          unawaited(_sharedPreferences!.remove(sharedPreferencesKey));
-        } else {
-          unawaited(_sharedPreferences!
-              .setDouble(sharedPreferencesKey, newValue as double));
-        }
-        break;
-      case PersistentValueNotifier<String>:
-      case PersistentValueNotifier<String?>:
-        if (newValue == null) {
-          unawaited(_sharedPreferences!.remove(sharedPreferencesKey));
-        } else {
-          unawaited(_sharedPreferences!
-              .setString(sharedPreferencesKey, newValue as String));
-        }
-        break;
-      case PersistentValueNotifier<List<String>>:
-      case PersistentValueNotifier<List<String>?>:
-        if (newValue == null) {
-          unawaited(_sharedPreferences!.remove(sharedPreferencesKey));
-        } else {
-          unawaited(_sharedPreferences!
-              .setStringList(sharedPreferencesKey, newValue as List<String>));
-        }
-        break;
-      default:
+    unawaited(switch (newValue) {
+      null => _sharedPreferences!.remove(sharedPreferencesKey),
+      int() => _sharedPreferences!.setInt(sharedPreferencesKey, newValue),
+      bool() => _sharedPreferences!.setBool(sharedPreferencesKey, newValue),
+      double() => _sharedPreferences!.setDouble(sharedPreferencesKey, newValue),
+      String() => _sharedPreferences!.setString(sharedPreferencesKey, newValue),
+      List<String>() =>
+        _sharedPreferences!.setStringList(sharedPreferencesKey, newValue),
+      _ =>
         // Should not happen, checked in constructor
-        throw Exception('Type parameter not supported: $runtimeType');
-    }
+        throw Exception('Type parameter not supported: $runtimeType'),
+    });
   }
 }
