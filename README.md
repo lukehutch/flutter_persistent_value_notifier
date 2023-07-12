@@ -1,6 +1,6 @@
 # The `flutter_persistent_value_notifier` library
 
-`ReactiveValue` resets to its initial value every time the app is restarted. You can persist values across app restarts by using `PersistentValueNotifier` rather than `ReactiveValue`.
+`ReactiveValue` resets to its initial value every time the app is restarted. You can persist values across app restarts by using `PersistentValueNotifier` rather than `ValueNotifier`.
 
 This Flutter library extends [`ValueNotifier<T>`](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to provide a `PersistentValueNotifier` that stores the `ValueNotifier`'s `value` in [`SharedPreferences`](https://pub.dev/packages/shared_preferences), so that changes in the `value` survive app restarts.
 
