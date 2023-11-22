@@ -1,3 +1,7 @@
+### 1.0.5
+
+* Rename `PersistentValueNotifierEnum.enumValueFromName` to `PersistentValueNotifierEnum.valuesByName` 
+
 ### 1.0.4
 
 * Require `initPersistentValueNotifier` to be called before `PersistentValueNotifier` is used (reverts the changes in 1.0.3).

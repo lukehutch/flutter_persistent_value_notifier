@@ -21,9 +21,13 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
   /// [sharedPreferencesKey] specifies the key to use when storing the value
   /// in [SharedPreferences]. [initialValue] is the initial value to set the
   /// [ValueNotifier] to.
-  PersistentValueNotifier(
-      {required this.sharedPreferencesKey, required T initialValue})
-      : super(initialValue) {
+  PersistentValueNotifier({
+    required this.sharedPreferencesKey,
+
+    /// The initial value to set the value to, if there isn't already a value
+    /// stored in SharedPreferences for sharedPreferencesKey.
+    required T initialValue,
+  }) : super(initialValue) {
     if (sharedPreferencesInstance == null) {
       throw 'Need to call `await initPersistentValueNotifier()` before '
           'instantiating PersistentValueNotifier';

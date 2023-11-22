@@ -16,8 +16,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
   /// The key to use when storing in SharedPreferences.
   final String sharedPreferencesKey;
+
+  /// The initial value to set the value to, if there isn't already a value
+  /// stored in SharedPreferences for sharedPreferencesKey.
   final T initialValue;
-  final T Function(String) enumValueFromName;
+
+  /// Pass in the enum's values.byName function, e.g. `MyEnum.values.byName`.
+  final T Function(String) valuesByName;
 
   /// A nullable [ValueNotifier] backed by [SharedPreferences].
   /// [sharedPreferencesKey] specifies the key to use when storing the value
@@ -26,7 +31,7 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
   PersistentValueNotifierEnum({
     required this.sharedPreferencesKey,
     required this.initialValue,
-    required this.enumValueFromName,
+    required this.valuesByName,
   }) : super(initialValue) {
     if (sharedPreferencesInstance == null) {
       throw 'Need to call `await initPersistentValueNotifier()` before '
@@ -39,8 +44,7 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
       // Use initialValue if no value exists in SharedPreferences for
       // sharedPreferencesKey; otherwise, try parsing initial enum value
       // name from SharedPreferences
-      super.value =
-          enumName == null ? initialValue : enumValueFromName(enumName);
+      super.value = enumName == null ? initialValue : valuesByName(enumName);
     } catch (e) {
       // If an enum constant of this name doesn't exist, then fall back on
       // the initial value (an enum value was removed since last time the
