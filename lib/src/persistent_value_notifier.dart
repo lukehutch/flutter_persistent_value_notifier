@@ -88,7 +88,7 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
             sharedPreferences.getString(sharedPreferencesKey) as T?,
           PersistentValueNotifier<List<String>?>() =>
             sharedPreferences.getStringList(sharedPreferencesKey) as T?,
-          _ => throw Exception('Type parameter not supported'),
+          _ => throw Exception('Type parameter not supported: $runtimeType'),
         } ??
         initialValue;
   }
