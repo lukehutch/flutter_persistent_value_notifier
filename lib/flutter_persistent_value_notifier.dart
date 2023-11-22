@@ -9,6 +9,6 @@
 
 library flutter_persistent_value_notifier;
 
-export 'src/init_persistent_value_notifier.dart';
+export 'src/init_shared_preferences.dart';
 export 'src/persistent_value_notifier.dart';
 export 'src/persistent_value_notifier_enum.dart';
