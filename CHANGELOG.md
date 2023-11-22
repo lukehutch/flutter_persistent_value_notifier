@@ -1,3 +1,8 @@
+### 1.0.4
+
+* Require `initPersistentValueNotifier` to be called before `PersistentValueNotifier` is used (reverts the changes in 1.0.3).
+* Add `PersistentValueNotifierEnum` to support enum value storage in `SharedPreferences`.
+
 ### 1.0.3
 
 Allow `PersistentValueNotifier` to be used with initial value if `SharedPreferences` has not yet been initialized (in case the user forgets to use `await` with `initPersistentValueNotifier`).

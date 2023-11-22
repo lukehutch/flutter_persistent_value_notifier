@@ -1,6 +1,6 @@
 name: flutter_persistent_value_notifier
 description: Allow changes to `ValueNotifier.value` to persist across app restarts.
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/lukehutch/flutter_persistent_value_notifier
 
 environment:
@@ -9,4 +9,4 @@ environment:
 dependencies:
   flutter: 
     sdk: flutter
-  shared_preferences: ^2.1.2
+  shared_preferences: ^2.2.2

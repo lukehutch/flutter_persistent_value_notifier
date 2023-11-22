@@ -47,6 +47,18 @@ final counter = PersistentValueNotifier<int>(
 
 Whenever `counter.value` is set in future, not only is the underlying `ValueNotifier`'s `value` updated, but the new value is asynchronously written through to `SharedPreferences`, using the same key.
 
+You can also use `PersistentValueNotifierEnum` to persistently and reactively store enum values:
+
+```dart
+enum Fruit { apple, pair, banana };
+
+final fruit = PersistentValueNotifierEnum<Fruit>(
+  sharedPreferencesKey: 'fruit',
+  initialValue: Fruit.apple,
+  enumValueFromName: (name) => Fruit.values.byName(name),
+);
+```
+
 ## Pro-tip
 
 Use `flutter_persistent_value_notifier` together with my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value), to enable persistent reactive state in your app!
