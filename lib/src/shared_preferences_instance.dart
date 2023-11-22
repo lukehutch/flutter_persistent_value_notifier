@@ -7,8 +7,7 @@
 // Source hosted at:
 // https://github.com/lukehutch/flutter_persistent_value_notifier
 
-library flutter_persistent_value_notifier;
+import 'package:shared_preferences/shared_preferences.dart';
 
-export 'src/init_persistent_value_notifier.dart';
-export 'src/persistent_value_notifier.dart';
-export 'src/persistent_value_notifier_enum.dart';
+/// Stores the SharedPreferences instance once it is initialized.
+SharedPreferences? sharedPreferencesInstance;
