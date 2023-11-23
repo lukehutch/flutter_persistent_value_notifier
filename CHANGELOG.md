@@ -1,3 +1,7 @@
+### 1.0.7
+
+* No funcitonal changes, only updates `README.md`, since the version on pub.dev contained an error.
+
 ### 1.0.6
 
 * Use `Enum.asNameMap` (which doesn't throw an exception) instead of `Enum.byName` to get enum values from name.
