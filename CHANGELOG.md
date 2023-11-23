@@ -1,3 +1,7 @@
+### 1.0.6
+
+* Use `Enum.asNameMap` (which doesn't throw an exception) instead of `Enum.byName` to get enum values from name.
+
 ### 1.0.5
 
 * Rename `PersistentValueNotifierEnum.enumValueFromName` to `PersistentValueNotifierEnum.valuesByName` 

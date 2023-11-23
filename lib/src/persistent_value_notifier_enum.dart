@@ -22,7 +22,7 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
   final T initialValue;
 
   /// Pass in the enum's values.byName function, e.g. `MyEnum.values.byName`.
-  final T Function(String) valuesByName;
+  final Map<String, T> nameToValueMap;
 
   /// A nullable [ValueNotifier] backed by [SharedPreferences].
   /// [sharedPreferencesKey] specifies the key to use when storing the value
@@ -31,7 +31,7 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
   PersistentValueNotifierEnum({
     required this.sharedPreferencesKey,
     required this.initialValue,
-    required this.valuesByName,
+    required this.nameToValueMap,
   }) : super(initialValue) {
     if (sharedPreferencesInstance == null) {
       throw 'Need to call `await initPersistentValueNotifier()` before '
@@ -40,17 +40,13 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
     // Initialize value from SharedPreferences, or from initialValue
     // if SharedPreferences doesn't have a value for this key yet
     final enumName = sharedPreferencesInstance!.getString(sharedPreferencesKey);
-    try {
-      // Use initialValue if no value exists in SharedPreferences for
-      // sharedPreferencesKey; otherwise, try parsing initial enum value
-      // name from SharedPreferences
-      super.value = enumName == null ? initialValue : valuesByName(enumName);
-    } catch (e) {
-      // If an enum constant of this name doesn't exist, then fall back on
-      // the initial value (an enum value was removed since last time the
-      // app was run)
-      super.value = initialValue;
-    }
+    // Use initialValue if no value exists in SharedPreferences for
+    // sharedPreferencesKey; otherwise, try parsing initial enum value
+    // name from SharedPreferences. If the name is not a valid enum
+    // value name, use initialValue.
+    super.value = enumName == null
+        ? initialValue
+        : nameToValueMap[enumName] ?? initialValue;
   }
 
   //// Set value, and asynchronously write through to SharedPreferences
