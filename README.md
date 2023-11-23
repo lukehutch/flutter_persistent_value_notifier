@@ -55,7 +55,7 @@ enum Fruit { apple, pair, banana };
 final fruit = PersistentValueNotifierEnum<Fruit>(
   sharedPreferencesKey: 'fruit',
   initialValue: Fruit.apple,
-  nameToValueMap: Fruit.values.asNameMap,
+  nameToValueMap: Fruit.values.asNameMap(),
 );
 ```
 
