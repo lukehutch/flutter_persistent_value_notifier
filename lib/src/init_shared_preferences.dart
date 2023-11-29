@@ -5,6 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Initialize [SharedPreferences] for [PersistentValueNotifier],
 /// and read initial persisted values. Must be called before any
 /// [PersistentValueNotifier] or [PersistentValueNotifierEnum]
-/// instances are created.
-Future<void> initPersistentValueNotifier() async =>
-    sharedPreferencesInstance = await SharedPreferences.getInstance();
+/// instances are created. See [SharedPreferences.setPrefix(prefix)]
+/// for information on the [prefix] parameter.
+Future<void> initPersistentValueNotifier({String? prefix}) async {
+  if (prefix != null) {
+    SharedPreferences.setPrefix(prefix);
+  }
+  sharedPreferencesInstance = await SharedPreferences.getInstance();
+}
