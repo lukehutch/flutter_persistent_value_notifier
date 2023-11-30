@@ -28,7 +28,7 @@ import 'package:flutter_persistent_value_notifier/'
 void main() async {
   // Both of the following lines are needed, in this order
   WidgetsFlutterBinding.ensureInitialized();
-  await initPersistentValueNotifier();
+  await initPersistentValueNotifier(prefix: 'com.myapp.');  // A unique SharedPreferences prefix for your app
 
   runApp(MainPage());
 }

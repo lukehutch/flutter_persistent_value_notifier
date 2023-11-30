@@ -1,3 +1,7 @@
+### 1.0.8
+
+* Add support for `SharedPreferences.setPrefix`, by passing a `prefix` parameter to `initPersistentValueNotifier`.
+
 ### 1.0.7
 
 * No funcitonal changes, only updates `README.md`, since the version on pub.dev contained an error.
