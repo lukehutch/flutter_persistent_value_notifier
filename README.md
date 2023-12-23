@@ -61,7 +61,7 @@ final fruit = PersistentValueNotifierEnum<Fruit>(
 
 ## Pro-tip
 
-Use `flutter_persistent_value_notifier` together with my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value), to enable persistent reactive state in your app!
+See also my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value), as an easy way to add reactive state to your app!
 
 ## Author
 
