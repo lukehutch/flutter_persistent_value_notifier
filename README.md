@@ -47,7 +47,9 @@ final counter = PersistentValueNotifier<int>(
 
 Whenever `counter.value` is set in future, not only is the underlying `ValueNotifier`'s `value` updated, but the new value is asynchronously written through to `SharedPreferences`, using the same key.
 
-You can also use `PersistentValueNotifierEnum` to persistently and reactively store enum values:
+## Variants
+
+You can also use `PersistentValueNotifierEnum` to persistently store enum values:
 
 ```dart
 enum Fruit { apple, pair, banana };
@@ -56,6 +58,17 @@ final fruit = PersistentValueNotifierEnum<Fruit>(
   sharedPreferencesKey: 'fruit',
   initialValue: Fruit.apple,
   nameToValueMap: Fruit.values.asNameMap(),
+);
+```
+
+Or you can use `PersistentValueNotifierJsonEncoded` to persistently store arbitrary JSON-serializable classes:
+
+```dart
+final fruit = PersistentValueNotifierJsonEncoded<UserProfile>(
+  sharedPreferencesKey: 'user-profile',
+  initialValue: UserProfile(),
+  toJson: UserProfile.toJson,
+  fromJson: UserProfile.fromJson,
 );
 ```
 
