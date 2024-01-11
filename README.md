@@ -67,7 +67,7 @@ Or you can use `PersistentValueNotifierJsonEncoded` to persistently store arbitr
 final fruit = PersistentValueNotifierJsonEncoded<UserProfile>(
   sharedPreferencesKey: 'user-profile',
   initialValue: UserProfile(),
-  toJson: UserProfile.toJson,
+  toJson: (userProfile) => userProfile.toJson,
   fromJson: UserProfile.fromJson,
 );
 ```
