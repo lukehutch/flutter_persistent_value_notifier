@@ -1,3 +1,7 @@
+### 1.0.9
+
+* Add `PersistentValueNotifierJsonEncoded` for persisting arbitrary JSON-serializable objects.
+
 ### 1.0.8
 
 * Add support for `SharedPreferences.setPrefix`, by passing a `prefix` parameter to `initPersistentValueNotifier`.
