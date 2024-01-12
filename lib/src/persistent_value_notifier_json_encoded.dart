@@ -73,25 +73,33 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   //// Set value, and asynchronously write through to SharedPreferences
   set value(T newValue) {
     if (_cachedValue == newValue) {
+      // Check for value equality
       return;
     }
     _cachedValue = newValue;
     final newValueJson = toJson(newValue);
     if (_valueJson == newValueJson) {
+      // Check for JSON equality
       return;
     }
     _valueJson = newValueJson;
+    notifyListeners();
+  }
+
+  @override
+  void notifyListeners() {
     // Asynchronously write the new value through to SharedPreferences
+    // when a change is notified
     sharedPreferencesInstance!
-        .setString(sharedPreferencesKey, newValueJson)
+        .setString(sharedPreferencesKey, _valueJson)
         .then((success) {
       if (!success) {
         // Should not happen (I don't know when the platform backends could
         // return false), but check anyway
-        throw Exception('Could not write value to SharedPreferences: '
-            '$sharedPreferencesKey = $newValue');
+        stderr.writeln('Could not write value to SharedPreferences: '
+            '$sharedPreferencesKey = $_valueJson');
       }
     });
-    notifyListeners();
+    super.notifyListeners();
   }
 }

@@ -7,6 +7,8 @@
 // Source hosted at:
 // https://github.com/lukehutch/flutter_persistent_value_notifier
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_persistent_value_notifier/src/shared_preferences_instance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,12 +52,10 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
         initialValue;
   }
 
-  //// Set value, and asynchronously write through to SharedPreferences
   @override
-  set value(T newValue) {
-    // Update the `ValueNotifier` superclass with the new value
-    super.value = newValue;
-    // Asynchronously write the new value through to SharedPreferences
+  void notifyListeners() {
+    // Asynchronously write the changed value through to SharedPreferences
+    final newValue = value;
     (switch (newValue) {
       null => sharedPreferencesInstance!.remove(sharedPreferencesKey),
       int() =>
@@ -76,9 +76,11 @@ class PersistentValueNotifier<T> extends ValueNotifier<T> {
       if (!success) {
         // Should not happen (I don't know when the platform backends could
         // return false), but check anyway
-        throw Exception('Could not write value to SharedPreferences: '
+        stderr.writeln('Could not write value to SharedPreferences: '
             '$sharedPreferencesKey = $newValue');
       }
     });
+    // Notify listeners
+    super.notifyListeners();
   }
 }
