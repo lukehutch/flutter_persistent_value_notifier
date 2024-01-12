@@ -7,6 +7,8 @@
 // Source hosted at:
 // https://github.com/lukehutch/flutter_persistent_value_notifier
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_persistent_value_notifier/src/shared_preferences_instance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +50,17 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
 
     if (existingPersitentValueJson != null) {
       _valueJson = existingPersitentValueJson;
-      _cachedValue = fromJson(existingPersitentValueJson);
+      try {
+        _cachedValue = fromJson(existingPersitentValueJson);
+      } catch (e) {
+        // Error -- probably there was a schema change
+        stderr.writeln(
+          'Error decoding value from SharedPreferences '
+          '(possible schema change?). Defaulting to initialValue. '
+          '$sharedPreferencesKey = $existingPersitentValueJson',
+        );
+        _cachedValue = initialValue;
+      }
     } else {
       _valueJson = toJson(initialValue);
       _cachedValue = initialValue;
@@ -56,7 +68,7 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   }
 
   @override
-  T get value => fromJson(_valueJson);
+  T get value => _cachedValue;
 
   //// Set value, and asynchronously write through to SharedPreferences
   set value(T newValue) {
