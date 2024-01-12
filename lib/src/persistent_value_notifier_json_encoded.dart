@@ -70,12 +70,9 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   @override
   T get value => _cachedValue;
 
-  //// Set value, and asynchronously write through to SharedPreferences
+  /// Set value, and asynchronously write through to SharedPreferences
+  /// if the JSON representation of the value has changed.
   set value(T newValue) {
-    if (_cachedValue == newValue) {
-      // Check for value equality
-      return;
-    }
     _cachedValue = newValue;
     final newValueJson = toJson(newValue);
     if (_valueJson == newValueJson) {
