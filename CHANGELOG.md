@@ -1,3 +1,7 @@
+### 1.0.11
+
+* Write through to `SharedPreferences` from `notifyListeners`.
+
 ### 1.0.10
 
 * Handle `fromJson` throwing an exception.
