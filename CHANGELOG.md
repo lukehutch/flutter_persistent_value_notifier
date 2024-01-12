@@ -1,3 +1,7 @@
+### 1.0.10
+
+* Handle `fromJson` throwing an exception.
+
 ### 1.0.9
 
 * Add `PersistentValueNotifierJsonEncoded` for persisting arbitrary JSON-serializable objects.
