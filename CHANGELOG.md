@@ -1,3 +1,7 @@
+### 1.0.13
+
+* Export `PersistentValueNotifierJsonEncoded`.
+
 ### 1.0.12
 
 * For `PersistentValueNotifierJsonEncoded`, notify listeners if the JSON representation of the value has changed, don't check the value reference for changes.
