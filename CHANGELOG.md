@@ -1,3 +1,7 @@
+### 1.0.14
+
+* Allow `PersistentValueNotifierEnum` to work with nullable enums.
+
 ### 1.0.13
 
 * Export `PersistentValueNotifierJsonEncoded`.

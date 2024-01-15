@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// A nullable [ValueNotifier] that persists enum value changes by using
 /// [SharedPreferences] as a write-through cache.
-class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
+class PersistentValueNotifierEnum<T extends Enum?> extends ValueNotifier<T> {
   /// The key to use when storing in SharedPreferences.
   final String sharedPreferencesKey;
 
@@ -54,17 +54,23 @@ class PersistentValueNotifierEnum<T extends Enum> extends ValueNotifier<T> {
   @override
   void notifyListeners() {
     // Asynchronously write the changed value through to SharedPreferences
-    sharedPreferencesInstance!
-        .setString(sharedPreferencesKey, value.name)
-        .then((success) {
-      if (!success) {
-        // Should not happen (I don't know when the platform backends could
-        // return false), but check anyway
-        stderr.writeln('Could not write value to SharedPreferences: '
-            '$sharedPreferencesKey = $value');
-      }
-    });
-    // Notify listeners
-    super.notifyListeners();
+    if (value == null) {
+      // If the value is null, delete the key from SharedPreferences
+      sharedPreferencesInstance!.remove(sharedPreferencesKey);
+    } else {
+      // Otherwise, write the value to SharedPreferences
+      sharedPreferencesInstance!
+          .setString(sharedPreferencesKey, value!.name)
+          .then((success) {
+        if (!success) {
+          // Should not happen (I don't know when the platform backends could
+          // return false), but check anyway
+          stderr.writeln('Could not write value to SharedPreferences: '
+              '$sharedPreferencesKey = $value');
+        }
+      });
+      // Notify listeners
+      super.notifyListeners();
+    }
   }
 }
