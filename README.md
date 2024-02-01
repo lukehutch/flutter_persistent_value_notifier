@@ -64,11 +64,11 @@ final fruit = PersistentValueNotifierEnum<Fruit>(
 Or you can use `PersistentValueNotifierJsonEncoded` to persistently store arbitrary JSON-serializable classes:
 
 ```dart
-final fruit = PersistentValueNotifierJsonEncoded<UserProfile>(
+final fruit = PersistentValueNotifierJsonEncoded<UserProfile?>(
   sharedPreferencesKey: 'user-profile',
-  initialValue: UserProfile(),
-  toJson: (userProfile) => userProfile.toJson(),
-  fromJson: UserProfile.fromJson,
+  initialValue: null,
+  toJson: (u) => jsonEncode(u?.toJson()),
+  fromJson: (jsonStr) => UserProfile.fromJson(jsonDecode(jsonStr)),
 );
 ```
 

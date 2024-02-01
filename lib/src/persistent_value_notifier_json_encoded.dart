@@ -21,7 +21,7 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   final String sharedPreferencesKey;
 
   /// The value encoded as Json
-  late String _valueJson;
+  late String _valueJsonStr;
 
   /// The value, cached, unencoded
   late T _cachedValue;
@@ -45,24 +45,24 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
     }
     // Initialize value from SharedPreferences, or from initialValue
     // if SharedPreferences doesn't have a value for this key yet
-    final existingPersitentValueJson =
+    final existingPersitentValueJsonStr =
         sharedPreferencesInstance!.getString(sharedPreferencesKey);
 
-    if (existingPersitentValueJson != null) {
-      _valueJson = existingPersitentValueJson;
+    if (existingPersitentValueJsonStr != null) {
+      _valueJsonStr = existingPersitentValueJsonStr;
       try {
-        _cachedValue = fromJson(existingPersitentValueJson);
+        _cachedValue = fromJson(existingPersitentValueJsonStr);
       } catch (e) {
         // Error -- probably there was a schema change
         stderr.writeln(
           'Error decoding value from SharedPreferences '
           '(possible schema change?). Defaulting to initialValue. '
-          '$sharedPreferencesKey = $existingPersitentValueJson',
+          '$sharedPreferencesKey = $existingPersitentValueJsonStr',
         );
         _cachedValue = initialValue;
       }
     } else {
-      _valueJson = toJson(initialValue);
+      _valueJsonStr = toJson(initialValue);
       _cachedValue = initialValue;
     }
   }
@@ -75,11 +75,11 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   set value(T newValue) {
     _cachedValue = newValue;
     final newValueJson = toJson(newValue);
-    if (_valueJson == newValueJson) {
+    if (_valueJsonStr == newValueJson) {
       // Check for JSON equality
       return;
     }
-    _valueJson = newValueJson;
+    _valueJsonStr = newValueJson;
     notifyListeners();
   }
 
@@ -88,13 +88,13 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
     // Asynchronously write the new value through to SharedPreferences
     // when a change is notified
     sharedPreferencesInstance!
-        .setString(sharedPreferencesKey, _valueJson)
+        .setString(sharedPreferencesKey, _valueJsonStr)
         .then((success) {
       if (!success) {
         // Should not happen (I don't know when the platform backends could
         // return false), but check anyway
         stderr.writeln('Could not write value to SharedPreferences: '
-            '$sharedPreferencesKey = $_valueJson');
+            '$sharedPreferencesKey = $_valueJsonStr');
       }
     });
     super.notifyListeners();
