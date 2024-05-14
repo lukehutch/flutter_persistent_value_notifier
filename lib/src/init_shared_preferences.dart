@@ -8,6 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// instances are created. See [SharedPreferences.setPrefix(prefix)]
 /// for information on the [prefix] parameter.
 Future<void> initPersistentValueNotifier({String? prefix}) async {
+  if (sharedPreferencesInstance != null) {
+    return;
+  }
   if (prefix != null) {
     SharedPreferences.setPrefix(prefix);
   }
