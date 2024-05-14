@@ -1,3 +1,7 @@
+### 1..0.15
+
+- Protect against `initPersistentValueNotifier` being called twice.
+
 ### 1.0.14
 
 * Allow `PersistentValueNotifierEnum` to work with nullable enums.
