@@ -74,19 +74,20 @@ class PersistentValueNotifierJsonEncoded<T> extends ChangeNotifier
   /// if the JSON representation of the value has changed.
   set value(T newValue) {
     _cachedValue = newValue;
-    final newValueJson = toJson(newValue);
-    if (_valueJsonStr == newValueJson) {
-      // Check for JSON equality
-      return;
-    }
-    _valueJsonStr = newValueJson;
     notifyListeners();
   }
 
   @override
   void notifyListeners() {
+    final newValueJson = toJson(_cachedValue);
+    if (_valueJsonStr == newValueJson) {
+      // The JSON encoding didn't change -- don't notify listeners
+      return;
+    }
+    // The JSON encoding changed
+    _valueJsonStr = newValueJson;
+
     // Asynchronously write the new value through to SharedPreferences
-    // when a change is notified
     sharedPreferencesInstance!
         .setString(sharedPreferencesKey, _valueJsonStr)
         .then((success) {
