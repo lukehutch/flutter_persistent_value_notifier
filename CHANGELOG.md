@@ -1,4 +1,8 @@
-### 1..0.15
+### 1.0.16
+
+- Allow for `notifyListeners` to be called for JSON-encoded persistent value notifiers without first calling `set value`, so that you can modify the fields of an object and notify listeners without updating the object reference.
+
+### 1.0.15
 
 - Protect against `initPersistentValueNotifier` being called twice.
 
