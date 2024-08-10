@@ -72,6 +72,8 @@ final fruit = PersistentValueNotifierJsonEncoded<UserProfile?>(
 );
 ```
 
+There is also a class `PersistentValueNotifierMap` which persists a `Map<String, dynamic>` to SharedPreferences as JSON.
+
 ## Pro-tip
 
 See also my other library, [`flutter_reactive_value`](https://github.com/lukehutch/flutter_reactive_value), as an easy way to add reactive state to your app!
