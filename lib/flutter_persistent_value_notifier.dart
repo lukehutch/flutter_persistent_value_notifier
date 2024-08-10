@@ -13,3 +13,4 @@ export 'src/init_shared_preferences.dart';
 export 'src/persistent_value_notifier.dart';
 export 'src/persistent_value_notifier_enum.dart';
 export 'src/persistent_value_notifier_json_encoded.dart';
+export 'src/persistent_value_notifier_map.dart';

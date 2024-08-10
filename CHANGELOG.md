@@ -1,3 +1,7 @@
+### 1.0.18
+
+- Add export missing in previous release.
+
 ### 1.0.17
 
 - Add `PersistentValueNotifierMap`, which persists a `Map<String, dynamic>` to SharedPreferences as JSON.
