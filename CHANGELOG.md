@@ -1,3 +1,7 @@
+### 1.0.19
+
+- Add missing `notifyListeners` in `PersistentValueNotifierMap`
+
 ### 1.0.18
 
 - Add export missing in previous release.
