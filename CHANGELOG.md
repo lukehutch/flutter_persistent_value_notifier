@@ -1,3 +1,7 @@
+### 1.0.20
+
+- Bugfixes for `PersistentValueNotifierMap`
+
 ### 1.0.19
 
 - Add missing `notifyListeners` in `PersistentValueNotifierMap`
